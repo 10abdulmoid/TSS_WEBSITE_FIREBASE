@@ -27,6 +27,10 @@ import Mentorship from './pages/services/Mentorship';
 function App() {
   const location = useLocation();
 
+  // Debug logging
+  console.log('🎯 App component rendering');
+  console.log('Current location:', location.pathname);
+
   // Scroll to top on route change
   useEffect(() => {
     window.scrollTo(0, 0);

@@ -18,6 +18,9 @@ import {
 } from 'lucide-react';
 
 const Home = () => {
+  // Debug logging
+  console.log('🏠 Home component rendering');
+
   const fadeIn = {
     initial: { opacity: 0, y: 30 },
     animate: { opacity: 1, y: 0 },
