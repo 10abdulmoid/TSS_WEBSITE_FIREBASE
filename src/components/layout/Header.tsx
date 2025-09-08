@@ -46,19 +46,19 @@ const Header = () => {
     }
   };
 
-  // Always visible navigation items
+  // Navigation items for non-authenticated users (public pages)
   const publicNavItems = [
     { title: 'Home', path: '/' },
     { title: 'About', path: '/about' },
-    { title: 'Jobs', path: '/jobs' },
-    { title: 'Resources', path: '/resources' },
-    { title: 'Events', path: '/events' },
     { title: 'Contact', path: '/contact' },
   ];
 
-  // Private navigation items (only shown when logged in)
-  const privateNavItems = [
+  // Navigation items for authenticated users (protected pages)
+  const authenticatedNavItems = [
     { title: 'Dashboard', path: '/dashboard' },
+    { title: 'Jobs', path: '/jobs' },
+    { title: 'Resources', path: '/resources' },
+    { title: 'Events', path: '/events' },
   ];
 
   const activeClass = 'text-orange-600 font-semibold';
@@ -77,28 +77,31 @@ const Header = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
-          {/* Public Navigation Items */}
-          {publicNavItems.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              className={({ isActive }) => (isActive ? activeClass : normalClass)}
-              end={item.path === '/'}
-            >
-              {item.title}
-            </NavLink>
-          ))}
-
-          {/* Private Navigation Items (only when logged in) */}
-          {user && privateNavItems.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              className={({ isActive }) => (isActive ? activeClass : normalClass)}
-            >
-              {item.title}
-            </NavLink>
-          ))}
+          {/* Show different navigation items based on authentication */}
+          {user ? (
+            // Authenticated user navigation
+            authenticatedNavItems.map((item) => (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                className={({ isActive }) => (isActive ? activeClass : normalClass)}
+              >
+                {item.title}
+              </NavLink>
+            ))
+          ) : (
+            // Public navigation for non-authenticated users
+            publicNavItems.map((item) => (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                className={({ isActive }) => (isActive ? activeClass : normalClass)}
+                end={item.path === '/'}
+              >
+                {item.title}
+              </NavLink>
+            ))
+          )}
 
           {/* Auth Section */}
           {user ? (
@@ -157,30 +160,33 @@ const Header = () => {
           }`}
         >
           <div className="flex flex-col justify-center items-center h-full space-y-6 px-4">
-            {/* Public Navigation Items */}
-            {publicNavItems.map((item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                className={({ isActive }) => `text-xl ${isActive ? activeClass : normalClass}`}
-                onClick={closeMenu}
-                end={item.path === '/'}
-              >
-                {item.title}
-              </NavLink>
-            ))}
-
-            {/* Private Navigation Items (only when logged in) */}
-            {user && privateNavItems.map((item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                className={({ isActive }) => `text-xl ${isActive ? activeClass : normalClass}`}
-                onClick={closeMenu}
-              >
-                {item.title}
-              </NavLink>
-            ))}
+            {/* Show different navigation items based on authentication */}
+            {user ? (
+              // Authenticated user navigation
+              authenticatedNavItems.map((item) => (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  className={({ isActive }) => `text-xl ${isActive ? activeClass : normalClass}`}
+                  onClick={closeMenu}
+                >
+                  {item.title}
+                </NavLink>
+              ))
+            ) : (
+              // Public navigation for non-authenticated users
+              publicNavItems.map((item) => (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  className={({ isActive }) => `text-xl ${isActive ? activeClass : normalClass}`}
+                  onClick={closeMenu}
+                  end={item.path === '/'}
+                >
+                  {item.title}
+                </NavLink>
+              ))
+            )}
 
             {/* Auth Section for Mobile */}
             {user ? (
